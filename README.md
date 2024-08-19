@@ -88,6 +88,17 @@ Step 4.1
 
 ## Future enhancements
 
+### Database
+- The most obvious enhancement I would improve on, would be the implementation of a DB. From here I would continue to persist each transaction for and Event driven architecture as well as ensureing immutability.
+- I would ensure to normalise the data, having domain specific table and JOINING upon retrieval.
+- As well as this, I would have another table for when the last time the retrieve balance was ran as well as the balance at that time. Therefore, the next time the endpoint was ran, 
+I would ensure to only calculate after the last time ran and again persist.
 
+## Money Class
+- Calculating money can be challenging, particularly when dealing with currencies that involve decimal places like 0 or 3.
+- I would have a Money class that has MINOR/MAJOR units, currency and finally the balance overall.
+
+## Possible queuing
+- I would also add queuing for the transactions. This would ensure that no transaction was to go missing.
 
 
