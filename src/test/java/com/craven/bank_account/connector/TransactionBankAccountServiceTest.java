@@ -5,13 +5,9 @@ import com.craven.bank_account.transaction.model.Transaction;
 import com.craven.bank_account.transaction.persistence.TransactionPersistenceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +15,6 @@ import java.util.UUID;
 import static com.craven.bank_account.transaction.model.Transaction.TransactionType.CREDIT;
 import static com.craven.bank_account.transaction.model.Transaction.TransactionType.DEBIT;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.openMocks;
 
@@ -114,7 +109,7 @@ class TransactionBankAccountServiceTest {
         double balance = underTest.retrieveBalance();
 
         // Assert
-        assertEquals(1000.0, balance);
+        assertThat(balance).isEqualTo(1000.0);
         verify(transactionPersistenceService).getTotalBalance();
     }
 
@@ -128,7 +123,7 @@ class TransactionBankAccountServiceTest {
         List<Transaction> result = underTest.retrieveAllTransaction();
 
         // Assert
-        assertEquals(transactions, result);
+        assertThat(result).isEqualTo(transactions);
         verify(transactionPersistenceService).retrieveAllTransactions();
     }
 }
