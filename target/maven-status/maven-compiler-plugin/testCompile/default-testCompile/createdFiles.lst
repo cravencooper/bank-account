@@ -1,1 +1,3 @@
+com/craven/bank_account/transaction/TransactionServiceTest.class
+com/craven/bank_account/connector/TransactionBankAccountServiceTest.class
 com/craven/bank_account/BankAccountApplicationTests.class

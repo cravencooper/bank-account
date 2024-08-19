@@ -55,7 +55,7 @@ public class TransactionBankAccountService implements BankAccountService {
     }
 
     private boolean shouldPublishBatch() {
-        return currentBatchValue > auditServiceConfig.getMaxBatchSize() || currentBatch.size() >= auditServiceConfig.getBatchSizeThreshold();
+        return currentBatchValue > auditServiceConfig.getBatchSizeThreshold() || currentBatch.size() >= auditServiceConfig.getMaxBatchSize();
     }
 
     private void publishAndResetBatch() {
