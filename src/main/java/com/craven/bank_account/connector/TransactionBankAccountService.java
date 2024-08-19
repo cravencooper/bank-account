@@ -59,6 +59,7 @@ public class TransactionBankAccountService implements BankAccountService {
 
     private void publishAndResetBatch() {
         auditService.publishBatch(currentBatch, currentBatchValue);
+        currentBatch.clear();
         currentBatchValue = 0;
     }
 }

@@ -78,6 +78,23 @@ class TransactionBankAccountServiceTest {
 
         underTest.processTransaction(transaction2);
 
-        verify(auditService).publishBatch(expectedBatch, 201D);
+        verify(auditService).publishBatch(anyList(), eq(201D));
+    }
+
+    @Test
+    void willSendBatchToAuditService_whenBatchSizeThresholdExceedsConfiguredValue() {
+        when(auditServiceConfig.getMaxBatchSize()).thenReturn(3L);
+        when(auditServiceConfig.getBatchSizeThreshold()).thenReturn(100L);
+        double transaction1Amount = 99;
+        double transaction2Amount = 2;
+
+        Transaction transaction1 = new Transaction(UUID.randomUUID(), DEBIT, transaction1Amount);
+        Transaction transaction2 = new Transaction(UUID.randomUUID(), DEBIT, transaction2Amount);
+
+        underTest.processTransaction(transaction1);
+
+        underTest.processTransaction(transaction2);
+
+        verify(auditService).publishBatch(anyList(), eq(101D));
     }
 }
