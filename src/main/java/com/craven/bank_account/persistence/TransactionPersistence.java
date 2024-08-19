@@ -13,12 +13,12 @@ import java.util.UUID;
 @Repository
 public interface TransactionPersistence extends JpaRepository<Transaction, Long> {
 
-    @Query("INSERT INTO transaction (id, account_uid, transaction_uid, transaction_type, amount, transaction_time) VALUES (:id, :account_uid, :transaction_uid, :transaction_type, :amount, :transaction_time)")
-    void persistTransactionDetails(
-            @Param("id") Long id,
-            @Param("account_uid") UUID accountUid,
-            @Param("transaction_uid") UUID transactionUid,
-            @Param("transaction_type") Transaction.TransactionType transactionType,
-            @Param("amount") Double amount,
-            @Param("transaction_time") Instant transactionTime);
+//    @Query("INSERT INTO transaction (id, account_uid, transaction_uid, transaction_type, amount, transaction_time) VALUES (:id, :account_uid, :transaction_uid, :transaction_type, :amount, :transaction_time)")
+//    void persistTransactionDetails(
+//            @Param("id") Long id,
+//            @Param("account_uid") UUID accountUid,
+//            @Param("transaction_uid") UUID transactionUid,
+//            @Param("transaction_type") Transaction.TransactionType transactionType,
+//            @Param("amount") Double amount,
+//            @Param("transaction_time") Instant transactionTime);
 }
