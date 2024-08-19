@@ -2,6 +2,9 @@ package com.craven.bank_account.connector;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+
 @Component
 public class AuditServiceConfig {
 

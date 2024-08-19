@@ -3,12 +3,11 @@ package com.craven.bank_account.transaction.persistence;
 
 import com.craven.bank_account.transaction.model.Transaction;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 public interface TransactionPersistence{
 
     void storeTransaction(Transaction transaction);
-
-    List<Transaction> retrieveAllTransactions();
+    BigDecimal getTotalBalance();
 
 }

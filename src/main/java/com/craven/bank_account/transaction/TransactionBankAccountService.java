@@ -1,10 +1,13 @@
-package com.craven.bank_account.connector;
+package com.craven.bank_account.transaction;
 
 import com.craven.bank_account.audit.AuditService;
+import com.craven.bank_account.connector.AuditServiceConfig;
+import com.craven.bank_account.connector.BankAccountService;
 import com.craven.bank_account.transaction.model.Transaction;
 import com.craven.bank_account.transaction.persistence.TransactionPersistenceService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +17,13 @@ public class TransactionBankAccountService implements BankAccountService {
     private final AuditService auditService;
     private final AuditServiceConfig auditServiceConfig;
     private final List<Transaction> currentBatch = new ArrayList<>();
-    private double currentBatchValue = 0;
+    private BigDecimal currentBatchValue;
 
     public TransactionBankAccountService(TransactionPersistenceService transactionPersistenceService, AuditService auditService, AuditServiceConfig auditServiceConfig) {
         this.transactionPersistenceService = transactionPersistenceService;
         this.auditService = auditService;
         this.auditServiceConfig = auditServiceConfig;
+        this.currentBatchValue = new BigDecimal(0);
     }
 
     @Override
@@ -28,11 +32,11 @@ public class TransactionBankAccountService implements BankAccountService {
         transactionPersistenceService.storeTransaction(transaction);
 
         // Calculate the transaction value
-        double transactionValue = Math.abs(transaction.getAmount());
+        BigDecimal transactionValue = transaction.amount();
 
         // Update batch value and add transaction to the current batch
         currentBatch.add(transaction);
-        currentBatchValue += transactionValue;
+        currentBatchValue = currentBatchValue.add(transactionValue);
 
         // Check if the batch should be published due to either size or value thresholds
         if (shouldPublishBatch()) {
@@ -41,22 +45,18 @@ public class TransactionBankAccountService implements BankAccountService {
     }
 
     @Override
-    public double retrieveBalance() {
+    public BigDecimal retrieveBalance() {
         return transactionPersistenceService.getTotalBalance();
     }
 
-    @Override
-    public List<Transaction> retrieveAllTransaction() {
-        return transactionPersistenceService.retrieveAllTransactions();
-    }
-
     private boolean shouldPublishBatch() {
-        return currentBatchValue > auditServiceConfig.getBatchSizeThreshold() || currentBatch.size() >= auditServiceConfig.getMaxBatchSize();
+        return currentBatchValue.compareTo(BigDecimal.valueOf(auditServiceConfig.getBatchSizeThreshold())) > 0
+                || currentBatch.size() >= auditServiceConfig.getMaxBatchSize();
     }
 
     private void publishAndResetBatch() {
         auditService.publishBatch(currentBatch, currentBatchValue);
         currentBatch.clear();
-        currentBatchValue = 0;
+        currentBatchValue = BigDecimal.ZERO;
     }
 }
