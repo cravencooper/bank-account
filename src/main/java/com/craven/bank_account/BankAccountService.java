@@ -1,4 +1,4 @@
-package com.craven.bank_account.connector;
+package com.craven.bank_account;
 
 import com.craven.bank_account.transaction.model.Transaction;
 

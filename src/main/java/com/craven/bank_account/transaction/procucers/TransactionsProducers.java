@@ -1,5 +1,6 @@
-package com.craven.bank_account.transaction;
+package com.craven.bank_account.transaction.procucers;
 
+import com.craven.bank_account.transaction.TransactionBankAccountService;
 import com.craven.bank_account.transaction.model.Transaction;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;

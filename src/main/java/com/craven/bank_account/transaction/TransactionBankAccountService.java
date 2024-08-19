@@ -1,8 +1,8 @@
 package com.craven.bank_account.transaction;
 
+import com.craven.bank_account.BankAccountService;
 import com.craven.bank_account.audit.AuditService;
-import com.craven.bank_account.connector.AuditServiceConfig;
-import com.craven.bank_account.connector.BankAccountService;
+import com.craven.bank_account.audit.AuditServiceConfig;
 import com.craven.bank_account.transaction.model.Transaction;
 import com.craven.bank_account.transaction.persistence.TransactionPersistenceService;
 import org.springframework.stereotype.Service;
@@ -50,12 +50,15 @@ public class TransactionBankAccountService implements BankAccountService {
     }
 
     private boolean shouldPublishBatch() {
+        //Check if the criteria has been met, if so, then it should publish the batch.
         return currentBatchValue.compareTo(BigDecimal.valueOf(auditServiceConfig.getBatchSizeThreshold())) > 0
                 || currentBatch.size() >= auditServiceConfig.getMaxBatchSize();
     }
 
     private void publishAndResetBatch() {
+        //Publishes batch
         auditService.publishBatch(currentBatch, currentBatchValue);
+        //Resets state.
         currentBatch.clear();
         currentBatchValue = BigDecimal.ZERO;
     }

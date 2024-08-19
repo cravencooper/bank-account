@@ -1,7 +1,7 @@
 package com.craven.bank_account.transaction;
 
 import com.craven.bank_account.audit.AuditService;
-import com.craven.bank_account.connector.AuditServiceConfig;
+import com.craven.bank_account.audit.AuditServiceConfig;
 import com.craven.bank_account.transaction.model.Transaction;
 import com.craven.bank_account.transaction.persistence.TransactionPersistenceService;
 import org.junit.jupiter.api.BeforeEach;

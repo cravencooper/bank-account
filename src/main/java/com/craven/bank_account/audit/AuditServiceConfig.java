@@ -1,9 +1,7 @@
-package com.craven.bank_account.connector;
+package com.craven.bank_account.audit;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
 
 @Component
 public class AuditServiceConfig {

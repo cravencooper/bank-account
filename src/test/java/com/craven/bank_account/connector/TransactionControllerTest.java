@@ -4,14 +4,8 @@ import com.craven.bank_account.transaction.TransactionBankAccountService;
 import com.craven.bank_account.transaction.model.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-
-import static com.craven.bank_account.transaction.model.TransactionType.CREDIT;
-import static com.craven.bank_account.transaction.model.TransactionType.DEBIT;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
-
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,16 +14,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static com.craven.bank_account.transaction.model.TransactionType.CREDIT;
+import static com.craven.bank_account.transaction.model.TransactionType.DEBIT;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class TransactionServiceTest {
+public class TransactionControllerTest {
 
     @Mock
     private TransactionBankAccountService transactionBankAccountService;
     @Autowired
-    private TransactionService underTest;
+    private TransactionController underTest;
 
     private List<Transaction> mockTransactions;
     private UUID accountUid1;
@@ -46,7 +42,7 @@ public class TransactionServiceTest {
 
         mockTransactions = Arrays.asList(transaction1, transaction2);
 
-        underTest = new TransactionService(transactionBankAccountService);
+        underTest = new TransactionController(transactionBankAccountService);
     }
     @Test
     void retrieveBalanceForAccount() {
