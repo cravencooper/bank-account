@@ -4,7 +4,8 @@ import com.craven.bank_account.transaction.model.Transaction;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.craven.bank_account.transaction.model.TransactionType.CREDIT;
 import static com.craven.bank_account.transaction.model.TransactionType.DEBIT;
@@ -12,7 +13,7 @@ import static com.craven.bank_account.transaction.model.TransactionType.DEBIT;
 @Repository
 public class TransactionPersistenceService implements TransactionPersistence {
 
-    Map<Long, Transaction> transactionStorage = new HashMap<>();
+    Map<Long, Transaction> transactionStorage = new ConcurrentHashMap<>();
 
     BigDecimal totalBalance = BigDecimal.ZERO; // Initialize totalBalance
 
