@@ -1,4 +1,4 @@
-package com.craven.bank_account.persistence;
+package com.craven.bank_account.transaction.persistence;
 
 
 import com.craven.bank_account.transaction.model.Transaction;

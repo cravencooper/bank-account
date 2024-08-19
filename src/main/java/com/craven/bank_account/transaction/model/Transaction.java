@@ -1,21 +1,16 @@
 package com.craven.bank_account.transaction.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
 import java.util.UUID;
 
 public class Transaction {
 
     private UUID accountUid;
-    private TransactionType type; // "Credit" or "Debit"
+    private TransactionType transactionType; // "Credit" or "Debit"
     private double amount;
 
-    public Transaction(UUID accountUid, TransactionType type, double amount) {
+    public Transaction(UUID accountUid, TransactionType transactionType, double amount) {
         this.accountUid = accountUid;
-        this.type = type;
+        this.transactionType = transactionType;
         this.amount = amount;
     }
 
@@ -23,18 +18,16 @@ public class Transaction {
         return accountUid;
     }
 
-    public TransactionType getType() {
-        return type;
+    public TransactionType getTransactionType() {
+        return transactionType;
     }
 
     public double getAmount() {
         return amount;
     }
 
-
     public enum TransactionType {
         CREDIT,
         DEBIT
-
     }
 }

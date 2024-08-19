@@ -1,33 +1,30 @@
 package com.craven.bank_account.transaction;
 
-import com.craven.bank_account.connector.TransactionResource;
-import com.craven.bank_account.persistence.TransactionPersistence;
+import com.craven.bank_account.connector.TransactionBankAccountService;
 import com.craven.bank_account.transaction.model.Transaction;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/account/transactions")
-public class TransactionService implements TransactionResource {
+@RequestMapping("/api/v1/bank-account")
+public class TransactionService {
 
-    private final TransactionPersistence transactionPersistenceService;
+    private final TransactionBankAccountService transactionBankAccountService;
 
-    public TransactionService(TransactionPersistence transactionPersistenceService) {
-        this.transactionPersistenceService = transactionPersistenceService;
+    public TransactionService(TransactionBankAccountService transactionBankAccountService) {
+        this.transactionBankAccountService = transactionBankAccountService;
     }
 
     @GetMapping()
     public List<Transaction> retrieveAllTransactions() {
-        return transactionPersistenceService.retrieveAllTransactions();
+        return transactionBankAccountService.retrieveAllTransaction();
     }
 
-    @Override
-    public void processTransaction(Transaction transaction) {
-        transactionPersistenceService.storeTransaction(transaction);
+    @GetMapping("balance")
+    public double retrieveBalanceForAccount() {
+        return transactionBankAccountService.retrieveBalance();
     }
 }
