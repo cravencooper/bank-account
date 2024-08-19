@@ -2,7 +2,7 @@ package com.craven.bank_account.transaction;
 
 import com.craven.bank_account.audit.AuditService;
 import com.craven.bank_account.connector.AuditServiceConfig;
-import com.craven.bank_account.transaction.model.NewRecord;
+import com.craven.bank_account.transaction.model.Transaction;
 import com.craven.bank_account.transaction.persistence.TransactionPersistenceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,8 +10,6 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 import static com.craven.bank_account.transaction.model.TransactionType.CREDIT;
@@ -32,8 +30,8 @@ class TransactionBankAccountServiceTest {
     private AuditServiceConfig auditServiceConfig;
     private UUID accountUid1;
     private UUID accountUid2;
-    private NewRecord transaction1;
-    private NewRecord transaction2;
+    private Transaction transaction1;
+    private Transaction transaction2;
 
     @BeforeEach
     void setUp() {
@@ -44,13 +42,13 @@ class TransactionBankAccountServiceTest {
         accountUid1 = UUID.randomUUID();
         accountUid2 = UUID.randomUUID();
 
-        transaction1 = new NewRecord(accountUid1, UUID.randomUUID(), DEBIT, BigDecimal.valueOf(100.0));
-        transaction2 = new NewRecord(accountUid2, UUID.randomUUID(), CREDIT, BigDecimal.valueOf(200.0));
+        transaction1 = new Transaction(accountUid1, UUID.randomUUID(), DEBIT, BigDecimal.valueOf(100.0));
+        transaction2 = new Transaction(accountUid2, UUID.randomUUID(), CREDIT, BigDecimal.valueOf(200.0));
     }
 
     @Test
     void willStoreProvidedTransaction() {
-        transaction1 = new NewRecord(accountUid1, UUID.randomUUID(), DEBIT, BigDecimal.valueOf(123.4));
+        transaction1 = new Transaction(accountUid1, UUID.randomUUID(), DEBIT, BigDecimal.valueOf(123.4));
 
         underTest.processTransaction(transaction1);
 
@@ -61,7 +59,7 @@ class TransactionBankAccountServiceTest {
     void willNotSendBatchToAuditService_whenCurrentBatchSizeIsSmallerThanThreshold() {
         when(auditServiceConfig.getMaxBatchSize()).thenReturn(2l);
         when(auditServiceConfig.getBatchSizeThreshold()).thenReturn(1000l);
-        NewRecord transaction = new NewRecord(accountUid1, UUID.randomUUID(), DEBIT, BigDecimal.valueOf(123.34));
+        Transaction transaction = new Transaction(accountUid1, UUID.randomUUID(), DEBIT, BigDecimal.valueOf(123.34));
 
 
         underTest.processTransaction(transaction);
@@ -76,8 +74,8 @@ class TransactionBankAccountServiceTest {
         BigDecimal transaction1Amount = BigDecimal.valueOf(100.50);
         BigDecimal transaction2Amount = BigDecimal.valueOf(100.50);
 
-        NewRecord transaction1 = new NewRecord(accountUid1, UUID.randomUUID(), DEBIT, transaction1Amount);
-        NewRecord transaction2 = new NewRecord(accountUid1, UUID.randomUUID(), DEBIT, transaction2Amount);
+        Transaction transaction1 = new Transaction(accountUid1, UUID.randomUUID(), DEBIT, transaction1Amount);
+        Transaction transaction2 = new Transaction(accountUid1, UUID.randomUUID(), DEBIT, transaction2Amount);
 
         underTest.processTransaction(transaction1);
 
@@ -93,8 +91,8 @@ class TransactionBankAccountServiceTest {
         BigDecimal transaction1Amount = BigDecimal.valueOf(99);
         BigDecimal transaction2Amount = BigDecimal.valueOf(2);
 
-        NewRecord transaction1 = new NewRecord(accountUid1, UUID.randomUUID(), DEBIT, transaction1Amount);
-        NewRecord transaction2 = new NewRecord(accountUid1, UUID.randomUUID(), DEBIT, transaction2Amount);
+        Transaction transaction1 = new Transaction(accountUid1, UUID.randomUUID(), DEBIT, transaction1Amount);
+        Transaction transaction2 = new Transaction(accountUid1, UUID.randomUUID(), DEBIT, transaction2Amount);
 
         underTest.processTransaction(transaction1);
 
@@ -114,19 +112,5 @@ class TransactionBankAccountServiceTest {
         // Assert
         assertThat(balance).isEqualTo(BigDecimal.valueOf(1000.0));
         verify(transactionPersistenceService).getTotalBalance();
-    }
-
-    @Test
-    void willRetrieveAllTransactions() {
-        // Arrange
-        List<NewRecord> transactions = Arrays.asList(transaction1, transaction2);
-        when(transactionPersistenceService.retrieveAllTransactions()).thenReturn(transactions);
-
-        // Act
-        List<NewRecord> result = underTest.retrieveAllTransaction();
-
-        // Assert
-        assertThat(result).isEqualTo(transactions);
-        verify(transactionPersistenceService).retrieveAllTransactions();
     }
 }

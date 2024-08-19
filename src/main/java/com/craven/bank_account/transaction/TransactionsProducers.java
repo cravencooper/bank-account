@@ -1,6 +1,6 @@
 package com.craven.bank_account.transaction;
 
-import com.craven.bank_account.transaction.model.NewRecord;
+import com.craven.bank_account.transaction.model.Transaction;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class TransactionsProducers {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() -> {
             while (true) {
-                NewRecord transaction = new NewRecord(accountUid, UUID.randomUUID(), CREDIT, generateRandomAmount(true));
+                Transaction transaction = new Transaction(accountUid, UUID.randomUUID(), CREDIT, generateRandomAmount(true));
                 transactionBankAccountService.processTransaction(transaction);
                 try {
                     Thread.sleep(40); // 25 credits per second => 1000ms / 25 = 40ms per transaction
@@ -44,7 +44,7 @@ public class TransactionsProducers {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() -> {
             while (true) {
-                NewRecord transaction = new NewRecord(accountUid, UUID.randomUUID(), CREDIT, generateRandomAmount(false));
+                Transaction transaction = new Transaction(accountUid, UUID.randomUUID(), CREDIT, generateRandomAmount(false));
                 transactionBankAccountService.processTransaction(transaction);
                 try {
                     Thread.sleep(40); // 25 debits per second => 1000ms / 25 = 40ms per transaction

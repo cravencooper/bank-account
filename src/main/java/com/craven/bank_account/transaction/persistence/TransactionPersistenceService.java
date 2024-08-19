@@ -1,6 +1,5 @@
 package com.craven.bank_account.transaction.persistence;
 
-import com.craven.bank_account.transaction.model.NewRecord;
 import com.craven.bank_account.transaction.model.Transaction;
 import org.springframework.stereotype.Repository;
 
@@ -13,12 +12,12 @@ import static com.craven.bank_account.transaction.model.TransactionType.DEBIT;
 @Repository
 public class TransactionPersistenceService implements TransactionPersistence {
 
-    Map<Long, NewRecord> transactionStorage = new HashMap<>();
+    Map<Long, Transaction> transactionStorage = new HashMap<>();
 
     BigDecimal totalBalance = BigDecimal.ZERO; // Initialize totalBalance
 
     @Override
-    public void storeTransaction(NewRecord transaction) {
+    public void storeTransaction(Transaction transaction) {
         Long id = 0L;
         // Store the transaction in the map - This should be backed by a DB and would be future enhancement.
         transactionStorage.put(id, transaction);

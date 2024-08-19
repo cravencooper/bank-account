@@ -3,7 +3,6 @@ package com.craven.bank_account.transaction;
 import com.craven.bank_account.audit.AuditService;
 import com.craven.bank_account.connector.AuditServiceConfig;
 import com.craven.bank_account.connector.BankAccountService;
-import com.craven.bank_account.transaction.model.NewRecord;
 import com.craven.bank_account.transaction.model.Transaction;
 import com.craven.bank_account.transaction.persistence.TransactionPersistenceService;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ public class TransactionBankAccountService implements BankAccountService {
     private final TransactionPersistenceService transactionPersistenceService;
     private final AuditService auditService;
     private final AuditServiceConfig auditServiceConfig;
-    private final List<NewRecord> currentBatch = new ArrayList<>();
+    private final List<Transaction> currentBatch = new ArrayList<>();
     private BigDecimal currentBatchValue;
 
     public TransactionBankAccountService(TransactionPersistenceService transactionPersistenceService, AuditService auditService, AuditServiceConfig auditServiceConfig) {
@@ -28,7 +27,7 @@ public class TransactionBankAccountService implements BankAccountService {
     }
 
     @Override
-    public synchronized void processTransaction(NewRecord transaction) {
+    public synchronized void processTransaction(Transaction transaction) {
         // Store the transaction
         transactionPersistenceService.storeTransaction(transaction);
 

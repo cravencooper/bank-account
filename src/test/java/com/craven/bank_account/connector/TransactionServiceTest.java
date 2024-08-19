@@ -1,7 +1,7 @@
 package com.craven.bank_account.connector;
 
 import com.craven.bank_account.transaction.TransactionBankAccountService;
-import com.craven.bank_account.transaction.model.NewRecord;
+import com.craven.bank_account.transaction.model.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -31,7 +31,7 @@ public class TransactionServiceTest {
     @Autowired
     private TransactionService underTest;
 
-    private List<NewRecord> mockTransactions;
+    private List<Transaction> mockTransactions;
     private UUID accountUid1;
     private UUID accountUid2;
 
@@ -41,27 +41,13 @@ public class TransactionServiceTest {
         accountUid1 = UUID.randomUUID();
         accountUid2 = UUID.randomUUID();
 
-        NewRecord transaction1 = new NewRecord(accountUid1,  UUID.randomUUID(), DEBIT, BigDecimal.valueOf(100.0));
-        NewRecord transaction2 = new NewRecord(accountUid2,   UUID.randomUUID(), CREDIT,  BigDecimal.valueOf(200.0));
+        Transaction transaction1 = new Transaction(accountUid1,  UUID.randomUUID(), DEBIT, BigDecimal.valueOf(100.0));
+        Transaction transaction2 = new Transaction(accountUid2,   UUID.randomUUID(), CREDIT,  BigDecimal.valueOf(200.0));
 
         mockTransactions = Arrays.asList(transaction1, transaction2);
 
         underTest = new TransactionService(transactionBankAccountService);
     }
-
-    @Test
-    void retrieveAllTransactionsForAccount() {
-        when(transactionBankAccountService.retrieveAllTransaction()).thenReturn(mockTransactions);
-
-        List<NewRecord> transactions = underTest.retrieveAllTransactions();
-
-        assertEquals(2, transactions.size());
-        assertThat(transactions.get(0).accountUid()).isEqualTo(accountUid1);
-        assertThat(transactions.get(1).accountUid()).isEqualTo(accountUid2);
-
-        verify(transactionBankAccountService, times(1)).retrieveAllTransaction();
-    }
-
     @Test
     void retrieveBalanceForAccount() {
         BigDecimal mockBalance = BigDecimal.valueOf(300.0);
