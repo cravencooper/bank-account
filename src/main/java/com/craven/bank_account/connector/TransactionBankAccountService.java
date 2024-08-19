@@ -12,7 +12,6 @@ import java.util.List;
 public class TransactionBankAccountService implements BankAccountService {
     private final TransactionPersistenceService transactionPersistenceService;
     private final AuditService auditService;
-
     private final AuditServiceConfig auditServiceConfig;
 
     private static final double MAX_BATCH_VALUE = 1_000_000; // Max value of batch set to £1,000,000
@@ -60,7 +59,6 @@ public class TransactionBankAccountService implements BankAccountService {
 
     private void publishAndResetBatch() {
         auditService.publishBatch(currentBatch, currentBatchValue);
-        currentBatch.clear();
         currentBatchValue = 0;
     }
 }
