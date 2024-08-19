@@ -101,4 +101,5 @@ I would ensure to only calculate after the last time ran and again persist.
 ## Possible queuing
 - I would also add queuing for the transactions. This would ensure that no transaction was to go missing.
 
-
+## Exception Handling
+- Unfortunately I ran out of time and therefore this is very much happy path only. For me there would be a lot more error handling for all the side-effects that could pop up. Especially around the Account retrival etc.
