@@ -1,6 +1,6 @@
 package com.craven.bank_account;
 
-import com.craven.bank_account.transaction.TransactionsProducers;
+import com.craven.bank_account.transaction.procucers.TransactionsProducers;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
