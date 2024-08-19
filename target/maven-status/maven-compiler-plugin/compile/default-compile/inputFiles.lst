@@ -1,1 +1,13 @@
 /Users/cravencooper/git/bank-account/src/main/java/com/craven/bank_account/BankAccountApplication.java
+/Users/cravencooper/git/bank-account/src/main/java/com/craven/bank_account/audit/AuditService.java
+/Users/cravencooper/git/bank-account/src/main/java/com/craven/bank_account/config/swagger/SwaggerConfig.java
+/Users/cravencooper/git/bank-account/src/main/java/com/craven/bank_account/connector/AuditServiceConfig.java
+/Users/cravencooper/git/bank-account/src/main/java/com/craven/bank_account/connector/BankAccountService.java
+/Users/cravencooper/git/bank-account/src/main/java/com/craven/bank_account/connector/TransactionBankAccountService.java
+/Users/cravencooper/git/bank-account/src/main/java/com/craven/bank_account/transaction/TransactionQueueConfig.java
+/Users/cravencooper/git/bank-account/src/main/java/com/craven/bank_account/transaction/TransactionService.java
+/Users/cravencooper/git/bank-account/src/main/java/com/craven/bank_account/transaction/TransactionsProducers.java
+/Users/cravencooper/git/bank-account/src/main/java/com/craven/bank_account/transaction/model/Money.java
+/Users/cravencooper/git/bank-account/src/main/java/com/craven/bank_account/transaction/model/Transaction.java
+/Users/cravencooper/git/bank-account/src/main/java/com/craven/bank_account/transaction/persistence/TransactionPersistence.java
+/Users/cravencooper/git/bank-account/src/main/java/com/craven/bank_account/transaction/persistence/TransactionPersistenceService.java

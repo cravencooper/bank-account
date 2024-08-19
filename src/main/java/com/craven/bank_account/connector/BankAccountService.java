@@ -2,8 +2,13 @@ package com.craven.bank_account.connector;
 
 import com.craven.bank_account.transaction.model.Transaction;
 
-public interface TransactionResource {
+import java.util.List;
+
+public interface BankAccountService {
 
     void processTransaction(Transaction transaction);
 
+    double retrieveBalance();
+
+    List<Transaction> retrieveAllTransaction();
 }

@@ -1,6 +1,6 @@
 package com.craven.bank_account.transaction;
 
-import com.craven.bank_account.persistence.TransactionPersistence;
+import com.craven.bank_account.connector.TransactionBankAccountService;
 import com.craven.bank_account.transaction.model.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,19 +18,12 @@ class TransactionServiceTest {
     private TransactionService underTest;
 
     @Mock
-    private TransactionPersistence transactionPersistence;
+    private TransactionBankAccountService transactionBankAccountService;
 
     @BeforeEach
     void setUp() {
         openMocks(this);
 
-        underTest = new TransactionService(transactionPersistence);
-    }
-
-    @Test
-    void willPersistProvidedTransaction() {
-        Transaction transaction = new Transaction(randomUUID(), DEBIT, 123);
-
-        underTest.processTransaction(transaction);
+        underTest = new TransactionService(transactionBankAccountService);
     }
 }

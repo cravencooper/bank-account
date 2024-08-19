@@ -1,1 +1,14 @@
+com/craven/bank_account/transaction/TransactionsProducers.class
+com/craven/bank_account/transaction/TransactionQueueConfig.class
+com/craven/bank_account/config/swagger/SwaggerConfig.class
+com/craven/bank_account/transaction/TransactionService.class
+com/craven/bank_account/connector/TransactionBankAccountService.class
+com/craven/bank_account/transaction/persistence/TransactionPersistence.class
+com/craven/bank_account/transaction/model/Transaction$TransactionType.class
+com/craven/bank_account/transaction/model/Transaction.class
+com/craven/bank_account/transaction/persistence/TransactionPersistenceService.class
+com/craven/bank_account/audit/AuditService.class
+com/craven/bank_account/transaction/model/Money.class
+com/craven/bank_account/connector/AuditServiceConfig.class
+com/craven/bank_account/connector/BankAccountService.class
 com/craven/bank_account/BankAccountApplication.class
