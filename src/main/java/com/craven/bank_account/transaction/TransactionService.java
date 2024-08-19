@@ -17,23 +17,17 @@ public class TransactionService implements TransactionResource {
 
     private final TransactionPersistence transactionPersistenceService;
 
-    public TransactionService(TransactionGenerator transactionGenerator, TransactionPersistence transactionPersistenceService) {
+    public TransactionService(TransactionPersistence transactionPersistenceService) {
         this.transactionPersistenceService = transactionPersistenceService;
     }
 
     @GetMapping()
     public List<Transaction> retrieveAllTransactions() {
-return null;    }
+        return transactionPersistenceService.retrieveAllTransactions();
+    }
 
     @Override
     public void processTransaction(Transaction transaction) {
-        transactionPersistenceService.persistTransactionDetails(
-                transaction.getId(),
-                transaction.getAccountUid(),
-                UUID.randomUUID(),
-                transaction.getType(),
-                transaction.getAmount(),
-                Instant.now()
-        );
+        transactionPersistenceService.storeTransaction(transaction);
     }
 }
