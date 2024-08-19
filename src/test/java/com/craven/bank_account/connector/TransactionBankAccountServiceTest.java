@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import static com.craven.bank_account.transaction.model.Transaction.TransactionType.CREDIT;
 import static com.craven.bank_account.transaction.model.Transaction.TransactionType.DEBIT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,18 +29,26 @@ class TransactionBankAccountServiceTest {
     private TransactionBankAccountService underTest;
     @Mock
     private TransactionPersistenceService transactionPersistenceService;
-    @Spy
+    @Mock
     private AuditService auditService;
     @Mock
     private AuditServiceConfig auditServiceConfig;
-    @Captor
-    private ArgumentCaptor<List<Transaction>> transactionsCaptor;
+    private UUID accountUid1;
+    private UUID accountUid2;
+    private Transaction transaction1;
+    private Transaction transaction2;
 
     @BeforeEach
     void setUp() {
         openMocks(this);
 
         underTest = new TransactionBankAccountService(transactionPersistenceService, auditService, auditServiceConfig);
+
+        accountUid1 = UUID.randomUUID();
+        accountUid2 = UUID.randomUUID();
+
+        transaction1 = new Transaction(accountUid1, DEBIT, 100.0);
+        transaction2 = new Transaction(accountUid2, CREDIT, 200.0);
     }
 
     @Test
@@ -72,8 +81,6 @@ class TransactionBankAccountServiceTest {
         Transaction transaction1 = new Transaction(UUID.randomUUID(), DEBIT, transaction1Amount);
         Transaction transaction2 = new Transaction(UUID.randomUUID(), DEBIT, transaction2Amount);
 
-        List<Transaction> expectedBatch = Arrays.asList(transaction1, transaction2);
-
         underTest.processTransaction(transaction1);
 
         underTest.processTransaction(transaction2);
@@ -96,5 +103,32 @@ class TransactionBankAccountServiceTest {
         underTest.processTransaction(transaction2);
 
         verify(auditService).publishBatch(anyList(), eq(101D));
+    }
+
+    @Test
+    void willRetrieveBalance() {
+        // Arrange
+        when(transactionPersistenceService.getTotalBalance()).thenReturn(1000.0);
+
+        // Act
+        double balance = underTest.retrieveBalance();
+
+        // Assert
+        assertEquals(1000.0, balance);
+        verify(transactionPersistenceService).getTotalBalance();
+    }
+
+    @Test
+    void willRetrieveAllTransactions() {
+        // Arrange
+        List<Transaction> transactions = Arrays.asList(transaction1, transaction2);
+        when(transactionPersistenceService.retrieveAllTransactions()).thenReturn(transactions);
+
+        // Act
+        List<Transaction> result = underTest.retrieveAllTransaction();
+
+        // Assert
+        assertEquals(transactions, result);
+        verify(transactionPersistenceService).retrieveAllTransactions();
     }
 }

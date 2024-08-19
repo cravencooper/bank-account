@@ -13,9 +13,6 @@ public class TransactionBankAccountService implements BankAccountService {
     private final TransactionPersistenceService transactionPersistenceService;
     private final AuditService auditService;
     private final AuditServiceConfig auditServiceConfig;
-
-    private static final double MAX_BATCH_VALUE = 1_000_000; // Max value of batch set to £1,000,000
-    private static final int BATCH_SIZE_THRESHOLD = 1000; // Maximum value set for the batch size
     private final List<Transaction> currentBatch = new ArrayList<>();
     private double currentBatchValue = 0;
 
